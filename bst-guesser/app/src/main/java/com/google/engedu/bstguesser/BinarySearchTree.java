@@ -51,12 +51,12 @@ public class BinarySearchTree {
 
     private TreeNode search(int value) {
         TreeNode current = root;
-        /**
-         **
-         **  YOUR CODE GOES HERE
-         **
-         **/
-        return current;
+        if (current.getValue() == value){
+            return current;
+        } else if(value > current.getValue()){
+            return current.right.search(value);
+        }
+        return current.left.search(value);
     }
 
     public void invalidateNode(int targetValue) {

@@ -18,11 +18,10 @@ package com.google.engedu.bstguesser;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 
 public class TreeNode {
     private static final int SIZE = 60;
-    private static final int MARGIN = 20;
+    private static final int MARGIN = 30;
     private int value, height;
     protected TreeNode left, right;
     private boolean showValue;
@@ -37,12 +36,43 @@ public class TreeNode {
         right = null;
     }
 
+    public TreeNode search(int target){
+        if (target == value){
+            return this;
+        }
+        if (target > value){
+            return right.search(target);
+        }else {
+            return  left.search(target);
+        }
+    }
+
     public void insert(int valueToInsert) {
-        /**
-         **
-         **  YOUR CODE GOES HERE
-         **
-         **/
+        height = getHeight(this);
+        if (valueToInsert > value) {
+            if (right == null) {
+                right = new TreeNode(valueToInsert);
+            } else {
+                right.insert(valueToInsert);
+            }
+        } else {
+            if (left == null) {
+                left = new TreeNode(valueToInsert);
+            } else {
+                left.insert(valueToInsert);
+            }
+        }
+
+    }
+
+    private int getHeight(TreeNode treeNode){
+        if (treeNode == null)
+            return 0;
+        else {
+            int leftHeight = getHeight(treeNode.left) + 1;
+            int rightHeight = getHeight(treeNode.right) + 1;
+            return Math.max(leftHeight, rightHeight);
+        }
     }
 
     public int getValue() {
@@ -53,7 +83,7 @@ public class TreeNode {
         this.y = y;
         x = (x0 + x1) / 2;
 
-        if(left != null) {
+        if (left != null) {
             left.positionSelf(x0, right == null ? x1 - 2 * MARGIN : x, y + SIZE + MARGIN);
         }
         if (right != null) {
@@ -66,21 +96,19 @@ public class TreeNode {
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(3);
         linePaint.setColor(Color.GRAY);
-        if (left != null)
-            c.drawLine(x, y + SIZE/2, left.x, left.y + SIZE/2, linePaint);
-        if (right != null)
-            c.drawLine(x, y + SIZE/2, right.x, right.y + SIZE/2, linePaint);
+        if (left != null) c.drawLine(x, y + SIZE / 2, left.x, left.y + SIZE / 2, linePaint);
+        if (right != null) c.drawLine(x, y + SIZE / 2, right.x, right.y + SIZE / 2, linePaint);
 
         Paint fillPaint = new Paint();
         fillPaint.setStyle(Paint.Style.FILL);
         fillPaint.setColor(color);
-        c.drawRect(x-SIZE/2, y, x+SIZE/2, y+SIZE, fillPaint);
+        c.drawRect(x - SIZE / 2, y, x + SIZE / 2, y + SIZE, fillPaint);
 
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize(SIZE * 2/3);
+        paint.setTextSize(SIZE * 2 / 3);
         paint.setTextAlign(Paint.Align.CENTER);
-        c.drawText(showValue ? String.valueOf(value) : "?", x, y + SIZE * 3/4, paint);
+        c.drawText(showValue ? String.valueOf(value) : "?", x, y + SIZE * 3 / 4, paint);
 
         if (height > 0) {
             Paint heightPaint = new Paint();
@@ -90,10 +118,8 @@ public class TreeNode {
             c.drawText(String.valueOf(height), x + SIZE / 2 + 10, y + SIZE * 3 / 4, heightPaint);
         }
 
-        if (left != null)
-            left.draw(c);
-        if (right != null)
-            right.draw(c);
+        if (left != null) left.draw(c);
+        if (right != null) right.draw(c);
     }
 
     public int click(float clickX, float clickY, int target) {
@@ -109,10 +135,8 @@ public class TreeNode {
             showValue = true;
             hit = value;
         }
-        if (left != null && hit == -1)
-            hit = left.click(clickX, clickY, target);
-        if (right != null && hit == -1)
-            hit = right.click(clickX, clickY, target);
+        if (left != null && hit == -1) hit = left.click(clickX, clickY, target);
+        if (right != null && hit == -1) hit = right.click(clickX, clickY, target);
         return hit;
     }
 

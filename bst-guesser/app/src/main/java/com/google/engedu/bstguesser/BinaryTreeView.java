@@ -76,19 +76,19 @@ public class BinaryTreeView extends View {
 
     public boolean onTouchEvent(MotionEvent event) {
         if (tree != null && searchPosition < searchSequence.size()) {
-            switch(event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    int targetValue = searchSequence.get(searchPosition);
-                    int hitValue = tree.click(event.getX(), event.getY(), targetValue);
-                    if (hitValue != -1) {
-                        invalidate();
-                        if (hitValue != targetValue) {
-                            tree.invalidateNode(targetValue);
-                        }
-                        searchPosition++;
-                        updateMessage();
-                        return true;
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                int targetValue = searchSequence.get(searchPosition);
+                int hitValue = tree.click(event.getX(), event.getY(), targetValue);
+                if (hitValue != -1) {
+                    invalidate();
+                    if (hitValue != targetValue) {
+                        tree.invalidateNode(targetValue);
+                        searchSequence.remove((Integer) hitValue);
                     }
+                    searchPosition++;
+                    updateMessage();
+                    return true;
+                }
             }
         }
         return super.onTouchEvent(event);

@@ -16,11 +16,12 @@
 package com.google.engedu.bstguesser;
 
 import android.content.pm.ActivityInfo;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.mainLayout);
         TextView textView = (TextView) findViewById(R.id.messageView);
         treeView = new BinaryTreeView(this, textView);
-        treeView.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        treeView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         layout.addView(treeView);
     }
 
